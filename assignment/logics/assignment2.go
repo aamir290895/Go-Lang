@@ -10,7 +10,7 @@ func SuperDigit(n int) int{
    }else if n%9 == 0{
      sum = 9
    }else{
-	 sum = n%9
+	   sum = n%9
    }
    
 

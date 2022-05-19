@@ -8,12 +8,12 @@ import (
 func CheckVowel(s string) string{
     var output string
     if (strings.ContainsAny(s,"aeiou") && strings.ContainsAny(s,"AEIOU")){
-	    output = "ugly string"
+	    output = "lovely string"
 
 
 	}else if (strings.ContainsAny(s,"aeiou") || strings.ContainsAny(s,"AEIOU")){
 
-		output = "lovely string"
+		output = "ugly string"
 	}
 
    return output
