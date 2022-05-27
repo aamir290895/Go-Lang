@@ -39,7 +39,7 @@ func main(){
 
 
 
-    super_digit := 148148148
+    super_digit := 12351511321231
 	fmt.Println(logic.SuperDigit(super_digit))
 
 	fmt.Println("output of assignment 3 :")
