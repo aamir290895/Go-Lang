@@ -2,17 +2,11 @@ package mi
 
 import (
 	"bufio"
-	// // "strconv"
-	 "os"
+	"os"
 	"io/ioutil"
-	
 	"fmt"
 	"strings"
-	"math/rand"
-	"time"
 	"encoding/json"
-
-
 )
 
 
@@ -21,7 +15,6 @@ type Shield struct {
 	Mission_Name string
 	Mission_Details string
 	Status string
-    Avengers []Avenger `json : "data"`
 	
 
 }
@@ -29,72 +22,46 @@ type Shield struct {
 
 
 type Avenger struct {
-   Name string       `json : "Name"`
-   Real_Name string   `json : "Real_Name`
-   Abilities string    `json : "Abilities"`
+   Name string       `json:"name"`
+   Real_Name string   `json:"real_name`
+   Abilities string    `json:"abilities"`
    Mission_Assigned int 
-   Mission_Completed int `json : "Mission_Completed`
+   Mission_Completed int `json:"mission_completed`
 
 }
 
 
-var Count int = 5
 var shield [10]Shield
 
 var avengers [10]Avenger
-func CheckAvengers() bool{
 
-	rand.Seed(time.Now().UnixNano())
-    return rand.Intn(2) == 1
+func JsonObj() int{
 
-}
+	file,_ := ioutil.ReadFile("mission/data.json")
+    
+    var data []Avenger
+	err := json.Unmarshal(file, &data)
 
-func JsonObj(){
-    jsonFile,_ := os.Open("data.json")
-	file,_ := ioutil.ReadAll(jsonFile)
-	defer jsonFile.Close()
+	if (err != nil){
+       fmt.Println("Error in parse json")
 
-	var data Shield
- 
-	json.Unmarshal(file, &data)
+	}
 
 	
-    fmt.Println(data)
+    for i,n := range data {
+		avengers[i].Name = n.Name
+		avengers[i].Abilities = n.Abilities
+		avengers[i].Real_Name = n.Real_Name
+		avengers[i].Mission_Completed = n.Mission_Completed
+
+
+	}
 	
-
-
-}
-
-
-func Details(){
-   avengers[0].Name = "Thor"
-   avengers[0].Abilities = "Superhuman strength, speed, agility, durability and immunity to most diseases."
-   avengers[0].Real_Name = "Chris Hemsworth"
-   avengers[0].Mission_Completed = 0
-
-   avengers[1].Name = "Hawkeye"
-   avengers[1].Abilities = "Superhuman strength and durability Size and mass manipulation."
-   avengers[1].Real_Name = "Clint Barton"
-   avengers[1].Mission_Completed = 0
-
-   avengers[2].Name = "Hulk"
-   avengers[2].Abilities = "Superhuman strength, speed, agility, durability and immunity to most diseases."
-   avengers[2].Real_Name = "Robert Bruce"
-   avengers[2].Mission_Completed = 0
-
-   avengers[3].Name = "Black Widow"
-   avengers[3].Abilities = "Superhuman strength, speed, agility, durability and immunity to most diseases."
-   avengers[3].Real_Name = "Natasha Romanova"
-   avengers[3].Mission_Completed = 0
-
-
-   avengers[4].Name = "Captain America"
-   avengers[4].Abilities = "Superhuman strength, speed, agility, durability and immunity to most diseases."
-   avengers[4].Real_Name = "Chris Evens"
-   avengers[4].Mission_Completed = 0
-
+	return len(data)
 
 }
+
+var Count int = JsonObj()
 
 func InputDetails(i int , mission_details string ,mission string){
 	      
@@ -105,26 +72,23 @@ func InputDetails(i int , mission_details string ,mission string){
 
 func AssignMission() {
 	
-
-	// var avenger Avengers
-
 	
-    JsonObj()
+	var alert string
+    
 	fmt.Println("Enter Avenger's Name: \n")
 
 	scanner1 := bufio.NewScanner(os.Stdin)
 	scanner1.Scan()
 	names := strings.Split(scanner1.Text(),",")
-	// var k [2]int
 
-	// fmt.Scanf("%s" ,&name)
 
+	
+	
 	fmt.Println("Enter mission name: \n")
 
 	scanner2 := bufio.NewScanner(os.Stdin)
 	scanner2.Scan()
 	mission := scanner2.Text()
-	// fmt.Scanf("%s",&mission)
 
 
 	fmt.Println("Enter mission details: \n")
@@ -132,60 +96,70 @@ func AssignMission() {
 	scanner3.Scan()
 	mission_details := scanner3.Text()
 	
-   if (len(names) == 2) {
-	for i :=0; i<=Count-1; i++{
+   if (len(names) == 2 ) {
+	for i :=0; i<=Count-1; i++ {
+		
             
-        if (avengers[i].Name ==names[0] ||avengers[i].Name == names[1]){
+        if (avengers[i].Name ==names[0] ||avengers[i].Name == names[1] && shield[i].Mission_Name != ""){
 	     	    
 
                 InputDetails(i,mission_details,mission)
 				
 		     
-	    } 
+	    } else{
+			fmt.Println(avengers[i].Name + "already working on the mission")
+		}
 
 		
-	  }      
+	  }  
+	  fmt.Println("The Mission has assigned .Email Notification has send\n\n\n")
+    
 	}else if (len(names)==1){
         for j :=0; j<=Count-1; j++{
             
-			if (avengers[j].Name ==names[0]){
+			if (avengers[j].Name ==names[0] && shield[j].Mission_Name != ""){
 					 
 	
 					InputDetails(j,mission_details,mission)
 				 
-			} 
-	
+			}else {
+				fmt.Println(avengers[j].Name + "already working on the mission")
+
+			}
 			
-		  }      
+		  }  
+		  fmt.Println("The Mission has assigned .Email Notification has send\n\n\n")
+    
+
+	}else {
 
 	}		
     
-	fmt.Println("The Mission has assigned .Email Notification has send\n\n\n")
-          
+     fmt.Println(alert)     
 }
 
 
-func CheckMission() string{
+func CheckMission(){
+	fmt.Println("Mission name \t| Avengers \t | Status")
 
-	var output string
+    
+    
+	var j int = 0
 	for i := 0; i<=Count-1; i++ {
-
-	if shield[i].Mission_Name == "" && len(shield) ==Count{
-		output = "No mission assigned to avengers\n\n\n"
-	}else{
-
-
-			if shield[i].Mission_Name != "" {
-				fmt.Println(shield[i].Mission_Name + "\t|\t" + avengers[i].Name + "\t|\t" + shield[i].Status )
-
-
-			}
-		  
+    
+    	if shield[i].Mission_Name != "" {
+			fmt.Println(shield[i].Mission_Name + "\t|\t" + avengers[i].Name + "\t|\t" + shield[i].Status )
+		}else if (shield[i].Mission_Name == ""){
+             j++
+          
 		}
-	}
+		  	
+    	}
 
+	if ( j == Count){
+		fmt.Println("No avenger's assign to mission")
+	}
 	
-	return output 
 }
 
 func FindIndex(a []string, x string) int {
@@ -215,11 +189,8 @@ func MissionDetails(){
 		}
 
 	}
-
-	
-
-   
 }
+
 
 
 func CheckAvengersDetail() {
@@ -238,9 +209,6 @@ func CheckAvengersDetail() {
 		}
 
 	}
-
-
-
 
 }
 

@@ -13,8 +13,7 @@ import
 
 func CaptainFury(){
   fmt.Println("========SHIELD=============") 
-  fmt.Println("Welcome to captain Fury:\n 1. Check the mission\n 2. Assigned missions to avengers\n 3. Check Mission's detail\n 4. Check Avengers detail's\n 5. Update Mission's status\n 6.List of avenger's\n 7. Assign avenger to mission\n")
-
+  fmt.Println("Welcome to captain Fury:\n 1. Check the mission\n 2. Assigned missions to avengers\n 3. Check Mission's detail\n 4. Check Avengers detail's\n 5. Update Mission's status\n 6. List of avenger's\n 7. Assign avenger to mission\n")
 
   scanner := bufio.NewScanner(os.Stdin)
   scanner.Scan()
@@ -24,13 +23,7 @@ func CaptainFury(){
   
   switch input{
   case 1 :
-      fmt.Println("Mission name \t| Avengers \t | Status")
-
-      fmt.Println(mi.CheckMission())
-    // scan_1 = scanner.Text()
-
-
-     
+     mi.CheckMission()
   case 2 :
      mi.AssignMission()
   case 3 :

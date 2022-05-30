@@ -1,37 +1,37 @@
-{"data":[
+[
   {
-     "Name" : "Thor", 
-     "Real_Name" : "Chris Hemsworth" ,
-     "Abilities" : "Superhuman strength, speed, agility, durability and immunity to most diseases.",
-     "Mission_Completed" : 0
+     "name" : "Thor", 
+     "real_name" : "Chris Hemsworth" ,
+     "abilities" : "Superhuman strength, speed, agility, durability and immunity to most diseases.",
+     "mission_completed" : 0
    },
 
    {
-    "Name" : "Black Widow", 
-    "Real_Name" : "Natasha Romanova" ,
-    "Abilities" : "Superhuman strength, speed, agility, durability and immunity to most diseases.",
-    "Mission_Completed" : 0
+    "name" : "Black Widow", 
+    "real_name" : "Natasha Romanova" ,
+    "abilities" : "Superhuman strength, speed, agility, durability and immunity to most diseases.",
+    "mission_completed" : 0
 
    },
    {
-    "Name" : "Hulk", 
-    "Real_Name" : "Robert Bruce" ,
-    "Abilities" : "Superhuman strength, speed, agility, durability and immunity to most diseases.",
-    "Mission_Completed" : 0
+    "name" : "Hulk", 
+    "real_name" : "Robert Bruce" ,
+    "abilities" : "Superhuman strength, speed, agility, durability and immunity to most diseases.",
+    "mission_completed" : 0
 
    },
    {
-    "Name" : "Hawkeye", 
-    "Real_Name" : "Clint Barton" ,
-    "Abilities" : "Superhuman strength, speed, agility, durability and immunity to most diseases.",
-    "Mission_Completed" : 0
+    "name" : "Hawkeye", 
+    "real_name" : "Clint Barton" ,
+    "abilities" : "Superhuman strength, speed, agility, durability and immunity to most diseases.",
+    "mission_completed" : 0
 
    },
    {
-    "Name" : "Captain America", 
-    "Real_Name" : "Chris Evens" ,
-    "Abilities" : "Superhuman strength, speed, agility, durability and immunity to most diseases.",
-    "Mission_Completed" : 0
+    "name" : "Captain America", 
+    "real_name" : "Chris Evens" ,
+    "abilities" : "Superhuman strength, speed, agility, durability and immunity to most diseases.",
+    "mission_completed" : 0
 
    }
 
@@ -40,5 +40,5 @@
 
 ]
 
-}
+
 
