@@ -12,8 +12,8 @@ import (
 
 type Shield struct {
 
-	Mission_Name string
-	Mission_Details string
+	Mission_Name []string
+	Mission_Details []string
 	Status string
 	
 
@@ -23,17 +23,17 @@ type Shield struct {
 
 type Avenger struct {
    Name string       `json:"name"`
-   Real_Name string   `json:"real_name`
+   Real_Name string   `json:"real_name"`
    Abilities string    `json:"abilities"`
    Mission_Assigned int 
-   Mission_Completed int `json:"mission_completed`
+   Mission_Completed int `json:"mission_completed"`
 
 }
 
 
 var shield [10]Shield
 
-var avengers [10]Avenger
+var avengers []Avenger
 
 func JsonObj() int{
 
@@ -46,29 +46,23 @@ func JsonObj() int{
        fmt.Println("Error in parse json")
 
 	}
-
-	
-    for i,n := range data {
-		avengers[i].Name = n.Name
-		avengers[i].Abilities = n.Abilities
-		avengers[i].Real_Name = n.Real_Name
-		avengers[i].Mission_Completed = n.Mission_Completed
-
-
-	}
-	
+	avengers = append(avengers, data...)
+		
 	return len(data)
 
 }
 
 var Count int = JsonObj()
 
-func InputDetails(i int , mission_details string ,mission string){
-	      
-		shield[i].Mission_Details = mission_details
-		shield[i].Mission_Name= mission
-		shield[i].Status = "Assigned"
-}
+// func InputDetails(i int , mission_details []string ,mission []string){
+	   
+// 	    a := append(shield[i].Mission_Name, mission...)
+	
+// 		b := append(shield[i].Mission_Details, mission_details...)
+
+// 		fmt.Println(a ,b)
+// 		shield[i].Status = "Assigned"
+// }
 
 func AssignMission() {
 	
@@ -95,21 +89,28 @@ func AssignMission() {
 	scanner3 := bufio.NewScanner(os.Stdin)
 	scanner3.Scan()
 	mission_details := scanner3.Text()
+    
+	var slice_mission []string 
+	var slice_mission_details []string
+
+	slice_mission = append(slice_mission ,mission)
+	slice_mission_details = append(slice_mission_details,mission_details)
 	
    if (len(names) == 2 ) {
 	for i :=0; i<=Count-1; i++ {
 		
             
-        if (avengers[i].Name ==names[0] ||avengers[i].Name == names[1] && shield[i].Mission_Name != ""){
+        if (avengers[i].Name ==names[0] ||avengers[i].Name == names[1] && len(shield[i].Mission_Name)<=2 ){
 	     	    
-
-                InputDetails(i,mission_details,mission)
+			shield[i].Mission_Name = append(shield[i].Mission_Name, slice_mission...)
+	
+			shield[i].Mission_Details = append(shield[i].Mission_Details, slice_mission_details...)
+	
+			shield[i].Status = "Assigned"
+            
 				
 		     
-	    } else{
-			fmt.Println(avengers[i].Name + "already working on the mission")
-		}
-
+	    } 
 		
 	  }  
 	  fmt.Println("The Mission has assigned .Email Notification has send\n\n\n")
@@ -117,14 +118,16 @@ func AssignMission() {
 	}else if (len(names)==1){
         for j :=0; j<=Count-1; j++{
             
-			if (avengers[j].Name ==names[0] && shield[j].Mission_Name != ""){
+			if (avengers[j].Name ==names[0] && len(shield[j].Mission_Name) <=2){
 					 
 	
-					InputDetails(j,mission_details,mission)
+				shield[j].Mission_Name = append(shield[j].Mission_Name, slice_mission...)
+	
+				shield[j].Mission_Details = append(shield[j].Mission_Details, slice_mission_details...)
+		
+				shield[j].Status = "Assigned"
+				
 				 
-			}else {
-				fmt.Println(avengers[j].Name + "already working on the mission")
-
 			}
 			
 		  }  
@@ -145,11 +148,14 @@ func CheckMission(){
     
     
 	var j int = 0
-	for i := 0; i<=Count-1; i++ {
+	for i := 0; i<Count; i++ {
     
-    	if shield[i].Mission_Name != "" {
-			fmt.Println(shield[i].Mission_Name + "\t|\t" + avengers[i].Name + "\t|\t" + shield[i].Status )
-		}else if (shield[i].Mission_Name == ""){
+    	if len(shield[i].Mission_Name) != 0 {
+
+			for _,n := range shield[i].Mission_Name {
+				fmt.Println(n + "\t|\t" + avengers[i].Name + "\t|\t" + shield[i].Status )
+			}
+		}else if (len(shield[i].Mission_Name) == 0){
              j++
           
 		}
@@ -172,6 +178,17 @@ func FindIndex(a []string, x string) int {
     return out
 }
 
+func CheckPresence(s []string, str string) bool {
+	for _, v := range s {
+		if v == str {
+			return true
+		}
+	}
+
+	return false
+}
+
+
 
 func MissionDetails(){
 
@@ -183,9 +200,14 @@ func MissionDetails(){
 	mission = scanner1.Text()
     
 	for i :=0;i<=Count;i++ {
-		if ( mission == shield[i].Mission_Name){
+		if (CheckPresence(shield[i].Mission_Name ,mission)){
 
-			fmt.Println("Mission Details: " + shield[i].Mission_Details + "Mission Status: "+ shield[i].Status + "\n\n\n")
+			for _,n := range shield[i].Mission_Details{
+				fmt.Println("Mission Details: " + n + "\t"+" Mission Status: "+ shield[i].Status + "\n\n\n")
+
+
+			}
+
 		}
 
 	}
@@ -212,6 +234,7 @@ func CheckAvengersDetail() {
 
 }
 
+
 func UpdateMissionStatus(){
 
   var mission string	
@@ -222,7 +245,7 @@ func UpdateMissionStatus(){
 
   for i :=0; i<=Count; i++ {
 
-	if (mission == shield[i].Mission_Name){
+	if (CheckPresence(shield[i].Mission_Name , mission)){
 		fmt.Println("Enter new status:")
 		scanner2 := bufio.NewScanner(os.Stdin)
 		scanner2.Scan()
@@ -244,7 +267,7 @@ func ListOfAvengers(){
 
 
 	   }else{
-		 fmt.Println(avengers[i].Name,"|\t","On the mission","|\t" ,shield[i].Mission_Name +"\n\n\n")  
+		 fmt.Println(avengers[i].Name,"|\t","On the mission","|\t" ,shield[i].Mission_Name )  
 	   }
 
 	}
@@ -269,8 +292,8 @@ func AssignAvengersToMission(){
 	for i := 0; i<=Count-1; i++{
 
 		if (avengers[i].Name == avenger){
-            if (shield[i].Mission_Name == ""){
-				shield[i].Mission_Name = mission
+            if (len(shield[i].Mission_Name) == 0){
+				shield[i].Mission_Name = append (shield[i].Mission_Name,mission)
 			}else {
 				fmt.Println(avengers[i].Name +" is already on the mission\n\n\n")
 			}
