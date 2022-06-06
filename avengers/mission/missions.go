@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"strings"
 	"encoding/json"
+	"sort"
+
 )
 
 
@@ -110,7 +112,7 @@ func AssignMission() {
             
 				
 		     
-	    } 
+	    }
 		
 	  }  
 	  fmt.Println("The Mission has assigned .Email Notification has send\n\n\n")
@@ -135,6 +137,8 @@ func AssignMission() {
     
 
 	}else {
+
+		fmt.Println("Only two avengers at a time can assign on one mission")
 
 	}		
     
@@ -203,7 +207,7 @@ func MissionDetails(){
 		if (CheckPresence(shield[i].Mission_Name ,mission)){
 
 			for _,n := range shield[i].Mission_Details{
-				fmt.Println("Mission Details: " + n + "\t"+" Mission Status: "+ shield[i].Status + "\n\n\n")
+				fmt.Println("Mission Details: " + n + "\t"+" Mission Status: "+ shield[i].Status + " to\t" + avengers[i].Name+ "\t\n")
 
 
 			}
@@ -224,11 +228,12 @@ func CheckAvengersDetail() {
 	scanner1.Scan()
 	av_name = scanner1.Text()
     
-	for i :=0;i<= Count;i++ {
+	for i := 0; i<Count; i++ {
 		if ( av_name == avengers[i].Name){
 
 			fmt.Println("Avenger Name:" + avengers[i].Name+"\n" + "Person Name:" + avengers[i].Real_Name +"\n"+ "Abilities: " + avengers[i].Abilities+   "\n"+ " Mission Status: "+ shield[i].Status + "\n\n\n")
 		}
+		
 
 	}
 
@@ -243,7 +248,7 @@ func UpdateMissionStatus(){
   scanner1.Scan()
   mission = scanner1.Text()
 
-  for i :=0; i<=Count; i++ {
+  for i :=0; i<Count; i++ {
 
 	if (CheckPresence(shield[i].Mission_Name , mission)){
 		fmt.Println("Enter new status:")
@@ -261,7 +266,7 @@ func UpdateMissionStatus(){
 
 func ListOfAvengers(){
 
-	for i:=0; i<=Count; i++ {
+	for i:=0; i<Count; i++ {
        if (shield[i].Status == ""){
 		fmt.Println("Mission" +  "|\t" + avengers[i].Name  + "|\t", "Available")
 
@@ -269,11 +274,13 @@ func ListOfAvengers(){
 	   }else{
 		 fmt.Println(avengers[i].Name,"|\t","On the mission","|\t" ,shield[i].Mission_Name )  
 	   }
-
+        
 	}
 
 
 }
+
+
 
 
 func AssignAvengersToMission(){
@@ -289,15 +296,34 @@ func AssignAvengersToMission(){
 	scanner2.Scan()
 	mission := scanner2.Text()
 
-	for i := 0; i<=Count-1; i++{
+
+	var int_slice []int
+
+	for i := 0; i<Count; i++{
 
 		if (avengers[i].Name == avenger){
-            if (len(shield[i].Mission_Name) == 0){
+            if (len(shield[i].Mission_Name) < 2 && len(shield[i].Mission_Name) != 0){
 				shield[i].Mission_Name = append (shield[i].Mission_Name,mission)
+
+				shield[i].Status = "Assigned"
 			}else {
-				fmt.Println(avengers[i].Name +" is already on the mission\n\n\n")
+				n := sort.SearchStrings(shield[i].Mission_Name,mission)
+				int_slice = append(int_slice,n)
+
 			}
+			
 		}
+	   	
+	}
+
+	if (len(int_slice) == 2){
+
+		fmt.Println(avengers[int_slice[0]].Name + "&" + avengers[int_slice[1]].Name +" is already on this mission\n\n\n")
+
+	}else if (len(int_slice)==1){
+
+		fmt.Println(avengers[int_slice[0]].Name  +" is already on this mission\n\n\n")
+
 	}
 
 
