@@ -1,5 +1,4 @@
-package main
-
+package news
 
 import (
 	"fmt"
@@ -32,7 +31,6 @@ type RSS struct {
 
 } 
 
-
 func ReadXml() *RSS{
 
 	resp, err := http.Get("https://timesofindia.indiatimes.com/rssfeedstopstories.cms")
@@ -51,18 +49,7 @@ func ReadXml() *RSS{
 	if (err != nil){
 		fmt.Println("Error in fetching data")
 	}
-
-    return rss
+    
+	return rss
+    
 }
-
-
-func main(){
-   
-	rss := ReadXml()
-
-	fmt.Println(rss.Channel.Title)
-	fmt.Println(rss.Channel.Description)
-
-
-}
-
