@@ -1,13 +1,6 @@
 package news
 
-import (
-	"fmt"
-	"encoding/xml"
-	"io/ioutil"
-	"net/http"
-    "log"
-    // "encoding/json"
-)
+// "encoding/json"
 
 
 type JNews struct {
@@ -31,25 +24,25 @@ type JNews struct {
 
 } 
 
-func ReadJSON() *RSS{
+// func ReadJSON() *RSS{
 
-	resp, err := http.Get("https://timesofindia.indiatimes.com/rssfeedstopstories.cms")
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer resp.Body.Close()
+// 	resp, err := http.Get("https://timesofindia.indiatimes.com/rssfeedstopstories.cms")
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	defer resp.Body.Close()
 
-	body, _ := ioutil.ReadAll(resp.Body)
+// 	body, _ := ioutil.ReadAll(resp.Body)
 
-    rss := &RSS{}
+//     rss := &RSS{}
 	
 
-	xml.Unmarshal(body, rss)
+// 	xml.Unmarshal(body, rss)
 
-	if (err != nil){
-		fmt.Println("Error in fetching data")
-	}
+// 	if (err != nil){
+// 		fmt.Println("Error in fetching data")
+// 	}
     
-	return rss
+// 	return rss
     
-}
+// }

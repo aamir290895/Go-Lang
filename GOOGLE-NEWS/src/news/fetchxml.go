@@ -1,12 +1,12 @@
 package news
 
 import (
-	"fmt"
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
-    "log"
-    // "encoding/json"
+	// "encoding/json"
 )
 
 
